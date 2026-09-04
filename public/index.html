@@ -1,0 +1,1873 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Rina 🌻</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&family=Parisienne&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+
+    /* =========================================================
+       CUTE GIRLY FINAL PAGE
+    ========================================================= */
+
+    .final-page {
+      position: relative;
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px 0 60px;
+    }
+
+
+    /* =========================================================
+       MOVING DECORATIONS
+    ========================================================= */
+
+    .girly-decoration {
+      position: absolute;
+      pointer-events: none;
+      z-index: 0;
+      user-select: none;
+    }
+
+    .decor-flower-1 {
+      top: 20px;
+      left: -20px;
+      font-size: 42px;
+      animation: floatSoft 5s ease-in-out infinite;
+    }
+
+    .decor-flower-2 {
+      top: 180px;
+      right: -20px;
+      font-size: 34px;
+      animation: floatSoft 6s ease-in-out infinite reverse;
+    }
+
+    .decor-heart-1 {
+      top: 420px;
+      left: -30px;
+      font-size: 28px;
+      animation: heartFloat 4s ease-in-out infinite;
+    }
+
+    .decor-heart-2 {
+      top: 700px;
+      right: -25px;
+      font-size: 30px;
+      animation: heartFloat 5s ease-in-out infinite reverse;
+    }
+
+    .decor-butterfly {
+      top: 1000px;
+      left: -20px;
+      font-size: 32px;
+      animation: butterflyFloat 7s ease-in-out infinite;
+    }
+
+    .decor-sparkle {
+      top: 1250px;
+      right: -20px;
+      font-size: 28px;
+      animation: sparkle 2s ease-in-out infinite;
+    }
+
+
+    /* =========================================================
+       PHOTOS
+    ========================================================= */
+
+    .photos {
+      position: relative;
+      z-index: 2;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      margin-bottom: 35px;
+    }
+
+
+    .photo-card {
+      position: relative;
+
+      width: 300px;
+      height: 380px;
+
+      margin: 0 auto;
+
+      border-radius: 30px;
+      overflow: hidden;
+
+      background: #fff4f7;
+
+      border: 8px solid #ffffff;
+
+      box-shadow:
+        0 12px 35px rgba(180, 120, 140, 0.18),
+        0 0 0 2px #f9dce5;
+
+      transform: rotate(-2deg);
+
+      transition:
+        transform 0.4s ease,
+        box-shadow 0.4s ease;
+    }
+
+
+    .photo-card:hover {
+      transform:
+        rotate(0deg)
+        translateY(-8px);
+
+      box-shadow:
+        0 20px 45px rgba(180, 120, 140, 0.25),
+        0 0 0 2px #f4cbd8;
+    }
+
+
+    .photo-card::before {
+      content: "♡";
+
+      position: absolute;
+
+      top: 10px;
+      right: 12px;
+
+      z-index: 3;
+
+      font-size: 25px;
+
+      color: white;
+
+      text-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.18);
+
+      animation: heartPulse 2s ease-in-out infinite;
+    }
+
+
+    .photo-card::after {
+      content: "🌸";
+
+      position: absolute;
+
+      bottom: 8px;
+      left: 10px;
+
+      z-index: 3;
+
+      font-size: 25px;
+
+      animation: flowerSpin 5s linear infinite;
+    }
+
+
+    .photo-card img {
+      width: 100%;
+      height: 100%;
+
+      object-fit: contain;
+
+      display: block;
+
+      background: #fff7f9;
+    }
+
+
+    /* =========================================================
+       MESSAGE
+    ========================================================= */
+
+    .message {
+      position: relative;
+      z-index: 2;
+
+      background:
+        linear-gradient(
+          180deg,
+          #ffffff 0%,
+          #fffafd 100%
+        );
+
+      border-radius: 32px;
+
+      padding: 48px 55px;
+
+      border: 2px solid #f8dfe7;
+
+      box-shadow:
+        0 15px 40px rgba(180, 120, 140, 0.12);
+
+      line-height: 1.8;
+
+      font-size: 17px;
+
+      overflow: hidden;
+    }
+
+
+    /* =========================================================
+       LITTLE CORNER DECORATIONS
+    ========================================================= */
+
+    .message::before {
+      content: "🌷";
+
+      position: absolute;
+
+      top: 18px;
+      left: 20px;
+
+      font-size: 30px;
+
+      opacity: 0.75;
+
+      animation:
+        floatSoft 4s ease-in-out infinite;
+    }
+
+
+    .message::after {
+      content: "🎀";
+
+      position: absolute;
+
+      top: 18px;
+      right: 20px;
+
+      font-size: 30px;
+
+      animation:
+        floatSoft 5s ease-in-out infinite reverse;
+    }
+
+
+    /* =========================================================
+       TITLE
+    ========================================================= */
+
+    .message h1 {
+      text-align: center;
+
+      font-family:
+        "Playfair Display",
+        serif;
+
+      font-size: 34px;
+
+      margin-top: 10px;
+      margin-bottom: 30px;
+
+      color: #c96f91;
+
+      text-shadow:
+        0 2px 10px rgba(201, 111, 145, 0.12);
+    }
+
+
+    .message h2 {
+      font-family:
+        "Playfair Display",
+        serif;
+
+      color: #c96f91;
+
+      font-size: 29px;
+    }
+
+
+    /* =========================================================
+       QUALITIES
+    ========================================================= */
+
+    .qualities {
+      text-align: center;
+
+      line-height: 2.05;
+
+      margin: 25px 0;
+
+      font-size: 18px;
+
+      color: #65535b;
+    }
+
+
+    .qualities br {
+      line-height: 1.7;
+    }
+
+
+    .qualities::before {
+      content: "✦  ✧  ✦";
+
+      display: block;
+
+      color: #e8a8bb;
+
+      font-size: 16px;
+
+      margin-bottom: 10px;
+
+      animation: sparkle 2.5s ease-in-out infinite;
+    }
+
+
+    .highlight {
+      font-weight: bold;
+
+      font-size: 19px;
+
+      color: #c96f91;
+    }
+
+
+    /* =========================================================
+       PARAGRAPHS
+    ========================================================= */
+
+    .message p {
+      color: #66575d;
+    }
+
+
+    .message strong {
+      color: #c35f84;
+    }
+
+
+    /* =========================================================
+       DIVIDER
+    ========================================================= */
+
+    .divider {
+      text-align: center;
+
+      margin: 38px 0;
+
+      font-size: 25px;
+
+      color: #e3a0b6;
+
+      letter-spacing: 10px;
+
+      animation:
+        sparkle 2.5s ease-in-out infinite;
+    }
+
+
+    .center {
+      text-align: center;
+    }
+
+
+    /* =========================================================
+       ENDING
+    ========================================================= */
+
+    .ending {
+      position: relative;
+
+      margin-top: 35px;
+
+      padding: 25px 15px;
+
+      text-align: center;
+
+      font-size: 20px;
+
+      line-height: 2;
+
+      color: #705d64;
+
+      background:
+        linear-gradient(
+          135deg,
+          #fff5f8,
+          #fffaf0
+        );
+
+      border-radius: 24px;
+
+      border: 1px solid #f6dce5;
+    }
+
+
+    .ending::before {
+      content: "🌷";
+
+      position: absolute;
+
+      top: -17px;
+      left: 25px;
+
+      font-size: 28px;
+
+      animation:
+        floatSoft 4s ease-in-out infinite;
+    }
+
+
+    .ending::after {
+      content: "🌸";
+
+      position: absolute;
+
+      bottom: -12px;
+      right: 25px;
+
+      font-size: 27px;
+
+      animation:
+        floatSoft 4.5s ease-in-out infinite reverse;
+    }
+
+
+    /* =========================================================
+       FINAL MESSAGE
+    ========================================================= */
+
+    .final {
+      margin-top: 28px;
+
+      padding-top: 20px;
+
+      border-top: 1px dashed #e9b9c8;
+
+      font-size: 23px;
+
+      font-weight: bold;
+
+      line-height: 1.7;
+
+      color: #c35f84;
+    }
+
+
+    .final strong {
+      display: inline-block;
+
+      font-family:
+        "Playfair Display",
+        serif;
+
+      font-size: 27px;
+
+      color: #d26b91;
+
+      animation:
+        gentleGlow 3s ease-in-out infinite;
+    }
+
+
+    /* =========================================================
+       FLOATING FOLLOWERS / MINI CHARACTERS
+    ========================================================= */
+
+    .cute-followers {
+      position: fixed;
+
+      inset: 0;
+
+      pointer-events: none;
+
+      overflow: hidden;
+
+      z-index: 10;
+    }
+
+
+    .follower {
+      position: absolute;
+
+      bottom: -60px;
+
+      font-size: 25px;
+
+      opacity: 0.7;
+
+      animation:
+        followerUp linear forwards;
+    }
+
+
+    /* =========================================================
+       ANIMATIONS
+    ========================================================= */
+
+    @keyframes floatSoft {
+
+      0%,
+      100% {
+        transform:
+          translateY(0)
+          rotate(-4deg);
+      }
+
+      50% {
+        transform:
+          translateY(-12px)
+          rotate(5deg);
+      }
+
+    }
+
+
+    @keyframes heartFloat {
+
+      0%,
+      100% {
+        transform:
+          translateY(0)
+          scale(1);
+      }
+
+      50% {
+        transform:
+          translateY(-15px)
+          scale(1.12);
+      }
+
+    }
+
+
+    @keyframes butterflyFloat {
+
+      0% {
+        transform:
+          translate(0, 0)
+          rotate(-5deg);
+      }
+
+      25% {
+        transform:
+          translate(15px, -15px)
+          rotate(5deg);
+      }
+
+      50% {
+        transform:
+          translate(0, -30px)
+          rotate(-5deg);
+      }
+
+      75% {
+        transform:
+          translate(-15px, -15px)
+          rotate(5deg);
+      }
+
+      100% {
+        transform:
+          translate(0, 0)
+          rotate(-5deg);
+      }
+
+    }
+
+
+    @keyframes sparkle {
+
+      0%,
+      100% {
+        opacity: 0.5;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.15);
+      }
+
+    }
+
+
+    @keyframes heartPulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.2);
+      }
+
+    }
+
+
+    @keyframes flowerSpin {
+
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+
+    }
+
+
+    @keyframes gentleGlow {
+
+      0%,
+      100% {
+        transform: scale(1);
+        text-shadow:
+          0 0 0 rgba(210, 107, 145, 0);
+      }
+
+      50% {
+        transform: scale(1.03);
+        text-shadow:
+          0 4px 15px rgba(210, 107, 145, 0.25);
+      }
+
+    }
+
+
+    @keyframes followerUp {
+
+      0% {
+        transform:
+          translateY(0)
+          translateX(0)
+          rotate(0deg);
+
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 0.7;
+      }
+
+      50% {
+        transform:
+          translateY(-50vh)
+          translateX(30px)
+          rotate(10deg);
+      }
+
+      100% {
+        transform:
+          translateY(-115vh)
+          translateX(-30px)
+          rotate(-10deg);
+
+        opacity: 0;
+      }
+
+    }
+
+
+    /* =========================================================
+       MOBILE
+    ========================================================= */
+
+    @media (max-width: 700px) {
+
+      .final-page {
+        padding:
+          10px 5px
+          45px;
+      }
+
+
+      .photos {
+        margin-bottom: 25px;
+      }
+
+
+      .photo-card {
+        width: 280px;
+        height: 320px;
+
+        border-radius: 27px;
+      }
+
+
+      .message {
+        padding:
+          38px 23px;
+
+        border-radius: 27px;
+
+        font-size: 16px;
+
+        line-height: 1.75;
+      }
+
+
+      .message h1 {
+        font-size: 28px;
+
+        margin-bottom: 25px;
+      }
+
+
+      .message h2 {
+        font-size: 25px;
+      }
+
+
+      .qualities {
+        font-size: 17px;
+
+        line-height: 2;
+      }
+
+
+      .highlight {
+        font-size: 18px;
+      }
+
+
+      .ending {
+        font-size: 18px;
+
+        padding:
+          22px 10px;
+      }
+
+
+      .final {
+        font-size: 20px;
+      }
+
+
+      .final strong {
+        font-size: 23px;
+      }
+
+
+      .girly-decoration {
+        opacity: 0.5;
+      }
+
+
+      .decor-flower-1,
+      .decor-heart-1,
+      .decor-butterfly {
+        left: 0;
+      }
+
+
+      .decor-flower-2,
+      .decor-heart-2,
+      .decor-sparkle {
+        right: 0;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+  <!-- =======================================================
+       FLOATING BACKGROUND SYMBOLS
+  ======================================================== -->
+
+  <div
+    class="floating-symbols"
+    id="floatingSymbols"
+  ></div>
+
+
+  <!-- =======================================================
+       CUTE FOLLOWERS
+  ======================================================== -->
+
+  <div class="cute-followers" id="cuteFollowers"></div>
+
+
+  <main class="app">
+
+
+    <!-- =====================================================
+         WELCOME
+    ====================================================== -->
+
+    <section
+      class="screen active"
+      id="welcome"
+    >
+
+      <div class="sunflower">
+        🌻
+      </div>
+
+      <p class="eyebrow">
+        a tiny little something
+      </p>
+
+      <h1>
+        Do you still like<br />
+        these things?
+      </h1>
+
+      <p class="intro">
+        I remembered a few things about you.
+        <br />
+        I got curious...
+        <br />
+        <strong>
+          are they still your favorites now?
+        </strong>
+      </p>
+
+      <div class="tiny-note">
+        No wrong answers. Promise. 🌼
+      </div>
+
+      <button
+        class="primary-btn"
+        id="startBtn"
+      >
+        Let's see 🌻
+      </button>
+
+     
+
+    </section>
+
+
+    <!-- =====================================================
+         QUIZ
+    ====================================================== -->
+
+    <section
+      class="screen"
+      id="quiz"
+    >
+
+      <div class="top-row">
+
+        <span class="eyebrow">
+          THE LITTLE MEMORY CHECK
+        </span>
+
+        <span id="counter">
+          1 / 12
+        </span>
+
+      </div>
+
+
+      <div class="progress">
+
+        <div
+          class="progress-bar"
+          id="progressBar"
+        ></div>
+
+      </div>
+
+
+      <div class="quiz-card">
+
+        <div
+          class="question-emoji"
+          id="questionEmoji"
+        >
+          💛
+        </div>
+
+        <h2 id="questionText">
+          Yellow
+        </h2>
+
+        <p id="questionSubtext">
+          I remember this being your favorite color.
+        </p>
+
+
+        <div class="choices">
+
+          <button
+            class="choice-btn"
+            data-answer="still"
+          >
+            <span>🌻</span>
+            Still love it
+          </button>
+
+
+          <button
+            class="choice-btn"
+            data-answer="sometimes"
+          >
+            <span>🌤️</span>
+            Sometimes
+          </button>
+
+
+          <button
+            class="choice-btn"
+            data-answer="no"
+          >
+            <span>🍃</span>
+            Not anymore
+          </button>
+
+        </div>
+
+
+        <div
+          class="reaction"
+          id="reaction"
+          aria-live="polite"
+        ></div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         EXTRA FAVORITES
+    ====================================================== -->
+
+    <section
+      class="screen"
+      id="extras"
+    >
+
+      <div class="sunflower small">
+        🌻
+      </div>
+
+      <p class="eyebrow">
+        WAIT, THERE'S MORE
+      </p>
+
+      <h2>
+        Things I forgot<br />
+        to remember?
+      </h2>
+
+      <p class="intro">
+        Maybe there are favorites I never knew about.
+        <br />
+        You can add them here.
+      </p>
+
+
+      <div class="memory-form">
+         <!-- Street Food Question -->
+  <label>
+    <span>
+      🌭 Do you still not eat street food?
+    </span>
+
+    <select id="streetFoodAnswer">
+      <option value="">Choose one...</option>
+      <option value="yes">Yes, I still don't eat street food</option>
+      <option value="no">No, I eat street food now 😂</option>
+    </select>
+  </label>
+
+
+        <label>
+
+          <span>
+            Another favorite
+          </span>
+
+          <input
+            type="text"
+            id="extraFavorite"
+            placeholder="Something you really like..."
+          />
+
+        </label>
+
+
+        <label>
+
+          <span>
+            Another food
+          </span>
+
+          <input
+            type="text"
+            id="extraFood"
+            placeholder="A food I should know about..."
+          />
+
+        </label>
+
+
+        <label>
+
+          <span>
+            Music
+          </span>
+
+          <input
+            type="text"
+            id="extraMusic"
+            placeholder="A song / artist..."
+          />
+
+        </label>
+
+
+        <label>
+
+          <span>
+            Something you love
+          </span>
+
+          <input
+            type="text"
+            id="extraLove"
+            placeholder="Anything at all..."
+          />
+
+        </label>
+
+      </div>
+
+
+      <button
+        class="primary-btn"
+        id="extrasBtn"
+      >
+        Okay, next 🌼
+      </button>
+
+    </section>
+
+
+    <!-- =====================================================
+         CURRENT RINA
+    ====================================================== -->
+
+    <section
+      class="screen"
+      id="now"
+    >
+
+      <div class="sunflower small">
+        🌻
+      </div>
+
+      <p class="eyebrow">
+        AND NOW...
+      </p>
+
+      <h2>
+        What do you<br />
+        like now?
+      </h2>
+
+      <p class="intro">
+        Because people change.
+        <br />
+        Favorites change too.
+        <br />
+        I want to know the current version of you.
+      </p>
+
+
+      <div class="memory-form">
+
+        <label>
+
+          <span>
+            Favorite color now
+          </span>
+
+          <input
+            type="text"
+            id="currentColor"
+            placeholder="Maybe it's still yellow?"
+          />
+
+        </label>
+
+
+        <label>
+
+          <span>
+            Favorite flower
+          </span>
+
+          <input
+            type="text"
+            id="currentFlower"
+            placeholder="Sunflower? Rose? Something else?"
+          />
+
+        </label>
+
+
+        <label>
+
+          <span>
+            Favorite food / snack
+          </span>
+
+          <input
+            type="text"
+            id="currentFood"
+            placeholder="What are you craving lately?"
+          />
+
+        </label>
+
+
+        <label>
+
+          <span>
+            Song you're loving lately
+          </span>
+
+          <input
+            type="text"
+            id="currentSong"
+            placeholder="Give me a song..."
+          />
+
+        </label>
+
+
+        <label>
+
+          <span>
+            Something you're excited about
+          </span>
+
+          <textarea
+            id="currentExcited"
+            placeholder="Something you're looking forward to..."
+          ></textarea>
+
+        </label>
+
+
+        <label>
+
+          <span>
+            Something you want to try
+          </span>
+
+          <textarea
+            id="currentTry"
+            placeholder="A place, hobby, food, dream..."
+          ></textarea>
+
+        </label>
+
+
+        <div class="select-group">
+
+          <label>
+
+            <span>
+              Do you still want to live in another country?
+            </span>
+
+            <select id="currentAbroad">
+
+              <option value="">
+                Choose one...
+              </option>
+
+              <option value="Yes">
+                Yes 🌍
+              </option>
+
+              <option value="Maybe">
+                Maybe 🌤️
+              </option>
+
+              <option value="No">
+                Not anymore 🌱
+              </option>
+
+              <option value="Not sure">
+                I'm not sure yet
+              </option>
+
+            </select>
+
+          </label>
+
+
+          <label>
+
+            <span>
+              Would you still build a house full of cats?
+            </span>
+
+            <select id="currentCats">
+
+              <option value="">
+                Choose one...
+              </option>
+
+              <option value="Absolutely">
+                Absolutely 🐈
+              </option>
+
+              <option value="Probably">
+                Probably 😂
+              </option>
+
+              <option value="Maybe">
+                Maybe...
+              </option>
+
+              <option value="No">
+                I've changed my mind
+              </option>
+
+            </select>
+
+          </label>
+
+        </div>
+
+      </div>
+
+
+      <button
+        class="primary-btn"
+        id="showResultBtn"
+      >
+        Next 🌻
+      </button>
+
+    </section>
+
+
+    <!-- =====================================================
+         RESULT
+    ====================================================== -->
+
+    <section
+      class="screen"
+      id="result"
+    >
+
+      <div class="sunflower">
+        🌻
+      </div>
+
+      <p class="eyebrow">
+        THE RINA ARCHIVE
+      </p>
+
+      <h2>
+        So this is<br />
+        <em>you</em> now.
+      </h2>
+
+      <p class="intro">
+        Some things stayed.
+        <br />
+        Some things changed.
+        <br />
+        And honestly, that's kind of beautiful.
+      </p>
+
+
+      <!-- STILL LOVE -->
+
+      <div class="result-card">
+
+        <h3>
+          🌻 Things you still love
+        </h3>
+
+        <div
+          class="favorite-list"
+          id="stillFavorites"
+        ></div>
+
+        <p
+          class="empty-result"
+          id="stillEmpty"
+        >
+          Apparently, I need to update my records. 😂
+        </p>
+
+      </div>
+
+
+      <!-- SOMETIMES -->
+
+      <div class="result-card">
+
+        <h3>
+          🌤️ Things you're feeling sometimes
+        </h3>
+
+        <div
+          class="favorite-list"
+          id="sometimesFavorites"
+        ></div>
+
+        <p
+          class="empty-result"
+          id="sometimesEmpty"
+        >
+          No "sometimes" answers. Very decisive. 😌
+        </p>
+
+      </div>
+
+
+      <!-- NO LONGER -->
+
+      <div class="result-card changed-card">
+
+        <h3>
+          🍃 Things you've moved on from
+        </h3>
+
+        <div
+          class="favorite-list"
+          id="changedFavorites"
+        ></div>
+
+        <p
+          class="empty-result"
+          id="changedEmpty"
+        >
+          Nothing changed here.
+        </p>
+
+      </div>
+
+
+      <!-- CURRENT -->
+
+      <div class="result-card">
+
+        <h3>
+          ✨ You now
+        </h3>
+
+        <div
+          class="current-list"
+          id="currentAnswers"
+        ></div>
+
+      </div>
+
+
+      <!-- FUN -->
+
+      <div class="fun-section">
+
+        <p>
+          Need something random?
+        </p>
+
+        <button
+          class="secondary-btn"
+          id="funBtn"
+        >
+          I need something fun 🎀
+        </button>
+
+        <div
+          class="fun-message"
+          id="funMessage"
+        ></div>
+
+      </div>
+
+
+      <!-- =================================================
+           FINAL CUTE PAGE
+      ================================================== -->
+
+      <div class="final-page">
+
+        <!-- MOVING DECORATIONS -->
+
+        <div class="girly-decoration decor-flower-1">
+          🌸
+        </div>
+
+        <div class="girly-decoration decor-flower-2">
+          🌷
+        </div>
+
+        <div class="girly-decoration decor-heart-1">
+          ♡
+        </div>
+
+        <div class="girly-decoration decor-heart-2">
+          💕
+        </div>
+
+        <div class="girly-decoration decor-butterfly">
+          🦋
+        </div>
+
+        <div class="girly-decoration decor-sparkle">
+          ✨
+        </div>
+
+
+        <!-- PHOTO -->
+
+        <div class="photos">
+
+          <div class="photo-card">
+
+            <img
+              src="rina-photo-1.jpg"
+              alt="Rina"
+            />
+
+          </div>
+
+        </div>
+
+
+        <!-- MESSAGE -->
+
+        <div class="message">
+
+          <h1>
+            Hi, I'm Rina. 🌻
+          </h1>
+
+
+          <div class="qualities">
+
+            I dance. 💃🏻<br />
+
+            I draw. 🎨<br />
+
+            I'm creative. ✨<br />
+
+            I dream big. 🌙<br />
+
+            I am beautiful.<br />
+
+            I am talented.<br />
+
+            I am capable.<br />
+
+            I am super cute. <br />
+
+            I am kind.<br />
+
+            And yes... I am pretty amazing. 😌
+
+          </div>
+
+
+          <p class="center highlight">
+
+            I'm allowed to be proud of myself.
+
+          </p>
+
+
+          <p>
+
+            I should give myself credit for the things I've accomplished,
+            even the things that other people might not notice.
+
+          </p>
+
+
+          <p>
+
+            I don't have to be perfect.<br />
+
+            I don't have to have everything figured out.<br />
+
+            I don't have to be okay all the time.
+
+          </p>
+
+
+          <p>
+
+            It's okay to have bad days.<br />
+
+            It's okay to feel tired.<br />
+
+            It's okay to make mistakes.<br />
+
+            It's okay to take a break.<br />
+
+            It's okay to cry when things feel heavy.
+
+          </p>
+
+
+          <p>
+
+            I can rest.<br />
+
+            I can take my time.<br />
+
+            I can try again tomorrow.
+
+          </p>
+
+
+          <p>
+
+            And I don't have to compare myself to anyone else.
+
+          </p>
+
+
+          <p>
+
+            Someone else may be good at something,
+            but that doesn't make me less talented.
+
+          </p>
+
+
+          <p>
+
+            Someone else may look different,
+            but that doesn't make me less beautiful.
+
+          </p>
+
+
+          <p>
+
+            I have my own talents.<br />
+
+            I have my own beauty.<br />
+
+            I have my own story.<br />
+
+            <strong>
+              And I am more than enough.
+            </strong>
+            🤍
+
+          </p>
+
+
+          <div class="divider">
+            ✦ ✧ ✦
+          </div>
+
+
+          <h2 class="center">
+            So, Rina...
+          </h2>
+
+
+          <p class="center highlight">
+
+            Keep being yourself.
+
+          </p>
+
+
+          <p>
+
+            Keep drawing.
+            Keep dancing.
+            Keep creating.
+            Keep dreaming about the life you want.
+            Keep becoming the person you want to be.
+
+          </p>
+
+
+          <p>
+
+            Don't forget how talented you are.
+            Don't forget to give yourself credit.
+            And please don't forget to enjoy your life
+            while you're busy becoming the person you want to be.
+
+          </p>
+
+
+          <!-- SELF WORTH MESSAGE -->
+
+          <p>
+
+            And remember,
+            making a mistake doesn't make you a bad person.
+
+            Don't be too hard on yourself.
+
+          </p>
+
+
+          <p>
+
+            Don't forget that you are kind.
+
+            You learn.
+            You grow.
+            And that matters.
+
+          </p>
+
+
+          <p class="center highlight">
+
+            So please don't be too hard on yourself. 🤍
+
+          </p>
+
+
+          <p>
+
+            One mistake doesn't define you.
+            One bad day doesn't define you.
+            And one difficult chapter doesn't define your whole story.
+
+          </p>
+
+
+          <p>
+
+            Keep going.
+            Keep learning.
+            Keep growing.
+
+            And someday,
+            you'll definitely grow your wings. 🪽🤍
+
+          </p>
+
+
+          <!-- DESERVING SECTION -->
+
+          <div class="ending">
+
+            You deserve to laugh. 🤍<br />
+
+            You deserve to rest. 🤍<br />
+
+            You deserve to enjoy the little things. 🤍<br />
+
+            You deserve to be cared for. 🤍<br />
+
+            You deserve to feel loved. 🤍<br />
+
+            You deserve peace. 🤍<br />
+
+            You deserve happiness. 🤍
+
+          </div>
+
+
+          <p>
+
+            And when you feel lost,
+            remember that you don't have to
+            figure everything out at once.
+
+          </p>
+
+
+          <p class="center">
+
+            Take your time.<br />
+
+            One day at a time. 🌷
+
+          </p>
+
+
+          <!-- GOD MESSAGE -->
+
+          <p>
+
+            And whenever you forget how special you are,
+            remember that <strong>God loves you.</strong> 🤍
+
+          </p>
+
+
+          <p>
+
+            He knows your heart.<br />
+
+            He knows the things you don't say.<br />
+
+            He sees your struggles.<br />
+
+            And He is always there for you.
+
+          </p>
+
+
+          <!-- FINAL -->
+
+          <div class="ending">
+
+            You are loved. 🤍<br />
+
+            You are important. 🤍<br />
+
+            You are special. 🤍<br />
+
+            <strong>
+              You are more than enough.
+            </strong>
+            🤍
+
+
+            <div class="final">
+
+              You deserve to be happy.<br />
+
+              Not someday.<br />
+
+              <strong>
+                But now, and every day. 🌻
+              </strong>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- RESTART -->
+
+
+    </section>
+
+  </main>
+
+
+  <!-- =======================================================
+       CONFETTI
+  ======================================================== -->
+
+  <div id="confetti"></div>
+
+
+  <!-- =======================================================
+       EXTRA FOLLOWER ANIMATION
+  ======================================================== -->
+
+  <script>
+
+    const followerContainer =
+      document.getElementById("cuteFollowers");
+
+
+    const followerSymbols = [
+      "🌹",
+      "🌸",
+      "🌷",
+      "🦋",
+      "💕",
+      "♡",
+      "✨",
+      "🌻",
+      "🎀",
+      "🌼",
+      "💗"
+    ];
+
+
+    function createFollower() {
+
+      if (!followerContainer) {
+        return;
+      }
+
+
+      const follower =
+        document.createElement("span");
+
+
+      follower.className =
+        "follower";
+
+
+      follower.textContent =
+        followerSymbols[
+          Math.floor(
+            Math.random() *
+            followerSymbols.length
+          )
+        ];
+
+
+      follower.style.left =
+        `${Math.random() * 100}%`;
+
+
+      follower.style.fontSize =
+        `${15 + Math.random() * 18}px`;
+
+
+      follower.style.animationDuration =
+        `${8 + Math.random() * 8}s`;
+
+
+      follower.style.animationDelay =
+        `${Math.random() * 2}s`;
+
+
+      followerContainer.appendChild(
+        follower
+      );
+
+
+      setTimeout(
+        () => {
+
+          follower.remove();
+
+        },
+        18000
+      );
+
+    }
+
+
+    setInterval(
+      createFollower,
+      1200
+    );
+
+  </script>
+
+
+  <script src="script.js"></script>
+
+</body>
+
+</html>
