@@ -652,7 +652,7 @@ $("showResultBtn").addEventListener(
         const button = $("showResultBtn");
 
         button.disabled = true;
-        button.textContent = "Saving... 💌";
+        button.textContent = "Loading... ";
 
         try {
 
