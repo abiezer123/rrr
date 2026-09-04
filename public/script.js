@@ -108,54 +108,35 @@ const FORMSPREE_ENDPOINT =
    from the same browser.
 */
 
-let visitorId =
-    localStorage.getItem(
-        "rina_visitor_id"
-    );
-
+let visitorId = localStorage.getItem("rina_visitor_id");
 
 if (!visitorId) {
-
-    visitorId =
-        crypto.randomUUID();
-
-    localStorage.setItem(
-        "rina_visitor_id",
-        visitorId
-    );
-
+    visitorId = crypto.randomUUID();
+    localStorage.setItem("rina_visitor_id", visitorId);
 }
 
+console.log("Visitor ID:", visitorId);
 
 /* =========================================================
    RECORD PAGE VISIT
 ========================================================= */
 
-fetch(
-    "/api/visit",
-    {
-        method: "POST",
-
-        headers: {
-            "Content-Type":
-                "application/json"
-        },
-
-        body: JSON.stringify({
-            visitor_id: visitorId
-        })
-    }
-)
-.catch(
-    error => {
-
-        console.error(
-            "Visit tracking failed:",
-            error
-        );
-
-    }
-);
+fetch("/api/visit", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        visitor_id: visitorId
+    })
+})
+.then(response => response.json())
+.then(data => {
+    console.log("Visit:", data);
+})
+.catch(error => {
+    console.error("Visit error:", error);
+});
 
 
 /* =========================================================
@@ -654,19 +635,119 @@ $("extrasBtn").addEventListener(
    SHOW RESULTS
 ========================================================= */
 
+/* =========================================================
+   SHOW RESULTS + SAVE ALL ANSWERS
+========================================================= */
+
 $("showResultBtn").addEventListener(
     "click",
-    () => {
+    async () => {
 
-        buildResult();
+        if (submitting) {
+            return;
+        }
 
-        show("result");
+        submitting = true;
 
-        makeConfetti();
+        const button = $("showResultBtn");
+
+        button.disabled = true;
+        button.textContent = "Saving... 💌";
+
+        try {
+
+            /* =================================================
+               BUILD ALL ANSWERS
+            ================================================= */
+
+            const data = buildSubmissionData();
+
+            console.log("SUBMISSION DATA:", data);
+
+
+            /* =================================================
+               SAVE ALL ANSWERS TO DATABASE
+            ================================================= */
+
+            const databaseResponse = await fetch(
+                "/api/answers",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        visitor_id: visitorId,
+                        response: data
+                    })
+                }
+            );
+
+
+            const result =
+                await databaseResponse.json();
+
+
+            console.log(
+                "DATABASE RESPONSE:",
+                result
+            );
+
+
+            if (!databaseResponse.ok || !result.success) {
+
+                throw new Error(
+                    result.message ||
+                    "Could not save answers"
+                );
+
+            }
+
+
+            /* =================================================
+               SHOW RESULTS
+            ================================================= */
+
+            buildResult();
+
+            show("result");
+
+            makeConfetti();
+
+
+            /* =================================================
+               SUCCESS
+            ================================================= */
+
+            button.textContent = "Saved ✓";
+
+
+        } catch (error) {
+
+            console.error(
+                "SAVE ANSWERS ERROR:",
+                error
+            );
+
+
+            button.disabled = false;
+
+            button.textContent = "Next 🌻";
+
+
+            alert(
+                "Something went wrong while saving the answers. Please try again."
+            );
+
+
+            submitting = false;
+
+        }
 
     }
 );
-
 
 /* =========================================================
    BUILD RESULT
@@ -1073,115 +1154,93 @@ $("funBtn").addEventListener(
 /* =========================================================
    BUILD SUBMISSION DATA
 ========================================================= */
-
 function buildSubmissionData() {
 
     const data = {};
 
+    // =========================
+    // BASIC INFORMATION
+    // =========================
 
-    /* -------------------------------------------------------
-       TITLE
-    ------------------------------------------------------- */
-
-    data["subject"] =
-        "🌻 Rina's Little Favorite Book — New Answers";
-
-
-    data["name"] =
-        "Rina";
+    data["subject"] = "🌻 Rina's Little Favorite Book — New Answers";
+    data["name"] = "Rina";
 
 
-    /* -------------------------------------------------------
-       REMEMBERED FAVORITES
-    ------------------------------------------------------- */
+    // =========================
+    // REMEMBERED FAVORITES
+    // =========================
 
-    questions.forEach(
-        question => {
+    for (const question of questions) {
 
-            const result =
-                answers[question.name];
+        const result = answers[question.name];
 
+        if (result) {
 
-            if (!result) {
-                return;
-            }
-
-
-            data[
-                `Remembered - ${question.name}`
-            ] =
+            data[`Remembered - ${question.name}`] =
                 `${result.item}: ${formatAnswer(result.answer)}`;
 
         }
-    );
+    }
 
 
-    /* -------------------------------------------------------
-       EXTRA FAVORITES
-    ------------------------------------------------------- */
+    // =========================
+    // EXTRA QUESTIONS
+    // =========================
 
     data["Extra - Another favorite"] =
         $("extraFavorite").value.trim();
 
-
     data["Extra - Another food"] =
         $("extraFood").value.trim();
-
 
     data["Extra - Music"] =
         $("extraMusic").value.trim();
 
-
     data["Extra - Something she loves"] =
         $("extraLove").value.trim();
 
+    data["Extra - Street food"] =
+        $("streetFoodAnswer").value;
 
-    /* -------------------------------------------------------
-       CURRENT FAVORITES
-    ------------------------------------------------------- */
+
+    // =========================
+    // CURRENT FAVORITES
+    // =========================
 
     data["Current - Favorite color"] =
         $("currentColor").value.trim();
 
-
     data["Current - Favorite flower"] =
         $("currentFlower").value.trim();
-
 
     data["Current - Favorite food/snack"] =
         $("currentFood").value.trim();
 
-
     data["Current - Song lately"] =
         $("currentSong").value.trim();
-
 
     data["Current - Still wants to live abroad"] =
         $("currentAbroad").value;
 
-
     data["Current - House full of cats"] =
         $("currentCats").value;
 
-
     data["Current - Something excited about"] =
         $("currentExcited").value.trim();
-
 
     data["Current - Something wants to try"] =
         $("currentTry").value.trim();
 
 
-    /* -------------------------------------------------------
-       CLIENT TIMESTAMP
-    ------------------------------------------------------- */
+    // =========================
+    // DATE/TIME
+    // =========================
 
     data["Submitted at"] =
         new Date().toISOString();
 
 
     return data;
-
 }
 
 
@@ -1222,219 +1281,6 @@ function formatAnswer(answer) {
 
 }
 
-
-/* =========================================================
-   SEND ANSWERS
-========================================================= */
-
-$("sendBtn").addEventListener(
-    "click",
-    async () => {
-
-        if (submitting) {
-            return;
-        }
-
-
-        submitting = true;
-
-
-        const button =
-            $("sendBtn");
-
-
-        const status =
-            $("sendStatus");
-
-
-        button.disabled =
-            true;
-
-
-        button.textContent =
-            "Sending... 💌";
-
-
-        status.textContent =
-            "Saving these little answers...";
-
-
-        try {
-
-            /* =================================================
-               BUILD ALL ANSWERS
-            ================================================= */
-
-            const data =
-                buildSubmissionData();
-
-
-            /* =================================================
-               SAVE TO SUPABASE THROUGH EXPRESS
-            ================================================= */
-
-            const databaseResponse =
-                await fetch(
-                    "/api/answers",
-                    {
-
-                        method:
-                            "POST",
-
-                        headers: {
-
-                            "Content-Type":
-                                "application/json"
-
-                        },
-
-                        body:
-                            JSON.stringify({
-
-                                visitor_id:
-                                    visitorId,
-
-                                response:
-                                    data
-
-                            })
-
-                    }
-                );
-
-
-            if (
-                !databaseResponse.ok
-            ) {
-
-                const errorData =
-                    await databaseResponse
-                        .json()
-                        .catch(
-                            () => ({})
-                        );
-
-
-                throw new Error(
-                    errorData.message ||
-                    "Could not save answers to database"
-                );
-
-            }
-
-
-            /* =================================================
-               FORMSPREE
-            ================================================= */
-
-            let formspreeSuccess =
-                false;
-
-
-            if (
-                FORMSPREE_ID &&
-                FORMSPREE_ID !==
-                    "YOUR_FORMSPREE_ID"
-            ) {
-
-                const response =
-                    await fetch(
-                        FORMSPREE_ENDPOINT,
-                        {
-
-                            method:
-                                "POST",
-
-                            headers: {
-
-                                "Content-Type":
-                                    "application/json",
-
-                                "Accept":
-                                    "application/json"
-
-                            },
-
-                            body:
-                                JSON.stringify(data)
-
-                        }
-                    );
-
-
-                if (
-                    response.ok
-                ) {
-
-                    formspreeSuccess =
-                        true;
-
-                }
-
-            }
-
-
-            /* =================================================
-               SUCCESS
-            ================================================= */
-
-            if (
-                formspreeSuccess
-            ) {
-
-                status.textContent =
-                    "Saved and sent! 💌 Thank you for answering all of this. 🌻";
-
-            }
-
-            else {
-
-                status.textContent =
-                    "Saved successfully! 🌻";
-
-            }
-
-
-            button.textContent =
-                "Saved successfully ✓";
-
-
-            button.classList.add(
-                "sent"
-            );
-
-
-            makeConfetti();
-
-
-        }
-
-        catch (error) {
-
-            console.error(
-                error
-            );
-
-
-            status.textContent =
-                "Hmm... something went wrong. Please try again.";
-
-
-            button.disabled =
-                false;
-
-
-            button.textContent =
-                "Try sending again 💌";
-
-
-            submitting =
-                false;
-
-        }
-
-    }
-);
 
 
 /* =========================================================
