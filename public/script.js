@@ -1680,7 +1680,7 @@ if (flowerBtn && flowerSurprise) {
 
 const photos = [
     "rina.jpg",
-    "rins.jpg",
+    "rina1.jpg",
  
 ];
 
