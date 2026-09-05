@@ -1676,3 +1676,17 @@ if (flowerBtn && flowerSurprise) {
     });
 
 }
+
+
+const photos = [
+    "rina.jpg",
+    "rins.jpg",
+ 
+];
+
+let currentPhoto = 0;
+
+setInterval(() => {
+    currentPhoto = (currentPhoto + 1) % photos.length;
+    document.getElementById("rinaPhoto").src = photos[currentPhoto];
+}, 5000);
