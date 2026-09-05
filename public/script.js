@@ -117,9 +117,7 @@ if (!visitorId) {
 
 console.log("Visitor ID:", visitorId);
 
-/* =========================================================
-   RECORD PAGE VISIT
-========================================================= */
+
 
 fetch("/api/visit", {
     method: "POST",
@@ -139,9 +137,7 @@ fetch("/api/visit", {
 });
 
 
-/* =========================================================
-   REMEMBERED THINGS
-========================================================= */
+
 
 const questions = [
 
@@ -738,7 +734,7 @@ $("showResultBtn").addEventListener(
 
 
             alert(
-                "Something went wrong while saving the answers. Please try again."
+                "Something went wrong . Please try again."
             );
 
 
@@ -1444,76 +1440,239 @@ setInterval(
     1200
 );
 
-
 /* =========================================================
-   RESTART
+   RINA'S MOOD TODAY
 ========================================================= */
 
-$("restartBtn").addEventListener(
-    "click",
-    () => {
+let selectedMood = null;
+let selectedMoodRating = null;
 
-        current = 0;
+const encouragement = {
+    angry:
+        "It's okay to be angry. You don't have to be okay right away. 🤍",
 
+    sad:
+        "It's okay to feel sad. I hope things get a little better soon. 🌷",
 
-        Object.keys(answers)
-            .forEach(
-                key => {
+    okay:
+        "It's okay to just be okay. Take things at your own pace. 🤍",
 
-                    delete answers[key];
+    happy:
+        "I'm glad you're feeling happy. You deserve days like this. 🌻",
 
-                }
-            );
+    very_happy:
+        "I'm really glad you're happy. Keep enjoying this moment. 💗"
+};
 
+/* =========================================================
+   MOOD BUTTONS
+========================================================= */
 
-        document
-            .querySelectorAll(
-                "input, textarea"
-            )
-            .forEach(
-                field => {
-
-                    field.value = "";
-
-                }
-            );
+const moodButtons =
+    document.querySelectorAll(".mood-btn");
 
 
-        document
-            .querySelectorAll(
-                "select"
-            )
-            .forEach(
-                select => {
+moodButtons.forEach(button => {
 
-                    select.selectedIndex = 0;
+    button.addEventListener("click", async () => {
 
-                }
-            );
+        /* =========================
+           GET MOOD
+        ========================= */
 
+        selectedMood =
+            button.dataset.mood;
 
-        $("sendBtn").disabled =
-            false;
+        selectedMoodRating =
+            Number(button.dataset.rating);
 
 
-        $("sendBtn").textContent =
-            "Send my answers 💌";
-
-
-        $("sendBtn").classList.remove(
-            "sent"
+        console.log(
+            "MOOD CLICKED:",
+            selectedMood,
+            selectedMoodRating
         );
 
 
-        $("sendStatus").textContent =
-            "";
+        /* =========================
+           HIGHLIGHT SELECTED MOOD
+        ========================= */
+
+        moodButtons.forEach(btn => {
+
+            btn.classList.remove("selected");
+
+        });
+
+        button.classList.add("selected");
 
 
-        submitting =
-            false;
+        /* =========================
+           SHOW NOTICE IMMEDIATELY
+        ========================= */
+
+        const status =
+            document.getElementById("moodStatus");
+
+        if (status) {
+
+            status.textContent =
+                "Loading... 🤍";
+
+            status.classList.add("show");
+
+        }
 
 
-        show("welcome");
+        /* =========================
+           SEND TO DATABASE
+        ========================= */
 
-    }
+        try {
+
+            const response =
+                await fetch("/api/mood", {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        visitor_id:
+                            visitorId,
+
+                        mood:
+                            selectedMood,
+
+                        rating:
+                            selectedMoodRating
+
+                    })
+
+                });
+
+
+            const data =
+                await response.json();
+
+
+            console.log(
+                "MOOD DATABASE RESPONSE:",
+                data
+            );
+
+
+            /* =========================
+               CHECK RESPONSE
+            ========================= */
+
+            if (
+                !response.ok ||
+                !data.success
+            ) {
+
+                throw new Error(
+                    data.message ||
+                    "Failed to save mood"
+                );
+
+            }
+
+
+            /* =========================
+               SUCCESS NOTICE
+            ========================= */
+
+            if (status) {
+
+                status.innerHTML = `
+                    <strong>Thank you for telling me. 🤍</strong>
+                    <br>
+                    ${encouragement[selectedMood]}
+                    <br><br>
+                    <span class="mood-saved">
+                        
+                    </span>
+                `;
+
+                status.classList.add("success");
+
+            }
+
+
+            console.log(
+                "✓ MOOD SAVED TO DATABASE"
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "MOOD ERROR:",
+                error
+            );
+
+
+            /* =========================
+               ERROR NOTICE
+            ========================= */
+
+            if (status) {
+
+                status.innerHTML = `
+                    <strong>Something went wrong. 😔</strong>
+                    <br>
+                    I couldn't save your mood.
+                    <br>
+                    Please try again. 🤍
+                `;
+
+                status.classList.add("error");
+
+            }
+
+        }
+
+    });
+
+});
+
+
+console.log(
+    "✓ Mood system loaded:",
+    moodButtons.length,
+    "buttons found"
 );
+
+/* =========================================================
+   FLOWER SURPRISE
+========================================================= */
+
+const flowerBtn =
+    document.getElementById("flowerBtn");
+
+const flowerSurprise =
+    document.getElementById("flowerSurprise");
+
+if (flowerBtn && flowerSurprise) {
+
+    flowerBtn.addEventListener("click", () => {
+
+        flowerSurprise.classList.add("show");
+
+        flowerBtn.textContent =
+            "🌷 These is for you 🤍";
+
+        flowerBtn.disabled = true;
+
+        flowerSurprise.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+    });
+
+}

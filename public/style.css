@@ -1199,6 +1199,198 @@ p:not(
 }
 
 
+/* =========================================================
+   RINA'S MOOD
+========================================================= */
+/* =========================================================
+   MOOD SECTION
+========================================================= */
+
+.mood-section {
+    margin-top: 50px;
+    padding: 30px 20px;
+    text-align: center;
+}
+
+.mood-section h2 {
+    margin-bottom: 10px;
+}
+
+.mood-intro {
+    color: #806c73;
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   MOOD BUTTONS
+========================================================= */
+
+.mood-options {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+
+.mood-btn {
+    min-width: 105px;
+    padding: 15px 12px;
+
+    border: 2px solid #f3d6df;
+    border-radius: 20px;
+
+    background: #fff8fa;
+
+    cursor: pointer;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease,
+        background 0.25s ease;
+}
+
+
+.mood-btn:hover {
+    transform: translateY(-5px);
+
+    border-color: #e9a9bd;
+
+    box-shadow:
+        0 8px 20px rgba(201, 111, 145, 0.15);
+}
+
+
+.mood-btn.selected {
+    transform: translateY(-5px) scale(1.05);
+
+    border-color: #d87599;
+
+    background: #fff0f5;
+
+    box-shadow:
+        0 8px 25px rgba(201, 111, 145, 0.25);
+}
+
+
+.mood-emoji {
+    font-size: 42px;
+
+    transition:
+        transform 0.25s ease;
+}
+
+
+.mood-btn.selected .mood-emoji {
+    transform: scale(1.2);
+}
+
+
+.mood-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #705d64;
+}
+
+
+/* =========================================================
+   MOOD NOTICE
+========================================================= */
+
+.mood-status {
+    max-width: 600px;
+
+    margin: 25px auto 0;
+
+    padding: 18px 22px;
+
+    border-radius: 18px;
+
+    background: #fff7f9;
+
+    border: 1px solid #f4d5df;
+
+    color: #705d64;
+
+    line-height: 1.7;
+
+    font-size: 15px;
+
+    min-height: 25px;
+
+    opacity: 0;
+
+    transform: translateY(8px);
+
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
+}
+
+
+.mood-status.show,
+.mood-status.success,
+.mood-status.error {
+    opacity: 1;
+
+    transform: translateY(0);
+}
+
+
+.mood-status.success {
+    background: #fff4f7;
+
+    border-color: #e8b5c6;
+}
+
+
+.mood-status.error {
+    background: #fff5f5;
+
+    border-color: #efc2c2;
+}
+
+
+.mood-saved {
+    font-weight: bold;
+    color: #c35f84;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .mood-options {
+        gap: 8px;
+    }
+
+    .mood-btn {
+        min-width: 90px;
+        padding: 12px 8px;
+    }
+
+    .mood-emoji {
+        font-size: 35px;
+    }
+
+    .mood-name {
+        font-size: 13px;
+    }
+
+}
+
 /* =========================
    SEND
 ========================= */
@@ -1439,5 +1631,118 @@ p:not(
     width:
       100%;
   }
+
+}
+
+
+/* =========================================================
+   FLOWER SURPRISE
+========================================================= */
+
+.flower-surprise {
+    margin-top: 45px;
+    padding: 30px 20px;
+    text-align: center;
+}
+
+.flower-btn {
+    border: none;
+    padding: 15px 25px;
+
+    border-radius: 30px;
+
+    background: #fff0f5;
+    color: #c96f91;
+
+    border: 2px solid #f1c8d6;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+}
+
+.flower-btn:hover {
+    transform: translateY(-3px);
+
+    background: #ffe6ef;
+
+    box-shadow:
+        0 8px 20px rgba(201, 111, 145, 0.18);
+}
+
+.flower-btn:active {
+    transform: scale(0.96);
+}
+
+.flower-result {
+    max-width: 500px;
+
+    margin: 25px auto 0;
+
+    padding: 25px;
+
+    border-radius: 22px;
+
+    background: #fffafd;
+
+    border: 1px solid #f2dce5;
+
+    box-shadow:
+        0 10px 30px rgba(180, 120, 140, 0.12);
+
+    display: none;
+
+    animation:
+        flowerAppear 0.7s ease forwards;
+}
+
+.flower-result.show {
+    display: block;
+}
+
+.flower-gif {
+    display: block;
+
+    width: 100%;
+    max-width: 300px;
+
+    margin: 0 auto 20px;
+
+    border-radius: 18px;
+}
+
+.flower-result h3 {
+    margin: 10px 0;
+
+    color: #c96f91;
+
+    font-size: 22px;
+}
+
+.flower-result p {
+    margin: 0;
+
+    color: #806d75;
+
+    line-height: 1.7;
+}
+
+@keyframes flowerAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 
 }

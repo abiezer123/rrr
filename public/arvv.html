@@ -75,7 +75,7 @@
 
             grid-template-columns:
                 repeat(
-                    3,
+                    4,
                     1fr
                 );
 
@@ -483,6 +483,137 @@
 
 
         /* =====================================================
+           MOOD CARDS
+        ===================================================== */
+
+        .mood-card {
+
+            border:
+                1px solid #f0dce4;
+
+            border-radius:
+                16px;
+
+            padding:
+                20px;
+
+            margin-bottom:
+                15px;
+
+            background:
+                #fffafd;
+        }
+
+
+        .mood-header {
+
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+            gap:
+                15px;
+
+            flex-wrap:
+                wrap;
+
+            margin-bottom:
+                10px;
+        }
+
+
+        .mood-title {
+
+            font-size:
+                20px;
+
+            font-weight:
+                bold;
+
+            color:
+                #c96f91;
+        }
+
+
+        .mood-date {
+
+            font-size:
+                13px;
+
+            color:
+                #927983;
+        }
+
+
+        .mood-stars {
+
+            font-size:
+                25px;
+
+            letter-spacing:
+                3px;
+
+            color:
+                #d26b91;
+
+            margin:
+                8px 0;
+        }
+
+
+        .mood-rating-text {
+
+            font-size:
+                15px;
+
+            color:
+                #66575d;
+        }
+
+
+        .mood-visitor {
+
+            margin-top:
+                10px;
+
+            font-family:
+                monospace;
+
+            font-size:
+                11px;
+
+            color:
+                #9a818a;
+
+            word-break:
+                break-all;
+        }
+
+
+        /* =====================================================
+           TABLET
+        ===================================================== */
+
+        @media (max-width: 900px) {
+
+            .summary {
+
+                grid-template-columns:
+                    repeat(
+                        2,
+                        1fr
+                    );
+            }
+
+        }
+
+
+        /* =====================================================
            MOBILE
         ===================================================== */
 
@@ -517,6 +648,18 @@
                 padding: 18px;
             }
 
+
+            .summary-card {
+
+                padding: 20px;
+            }
+
+
+            .mood-card {
+
+                padding: 16px;
+            }
+
         }
 
     </style>
@@ -527,6 +670,11 @@
 <body>
 
 <div class="container">
+
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
 
     <header>
 
@@ -557,6 +705,10 @@
     </header>
 
 
+    <!-- =====================================================
+         ERROR
+    ====================================================== -->
+
     <div
         id="error"
         class="error"
@@ -568,6 +720,9 @@
     ====================================================== -->
 
     <div class="summary">
+
+
+        <!-- TOTAL PAGE OPENS -->
 
         <div class="summary-card">
 
@@ -585,6 +740,8 @@
         </div>
 
 
+        <!-- UNIQUE BROWSERS -->
+
         <div class="summary-card">
 
             <div class="summary-label">
@@ -601,6 +758,8 @@
         </div>
 
 
+        <!-- QUESTIONNAIRE SUBMISSIONS -->
+
         <div class="summary-card">
 
             <div class="summary-label">
@@ -616,6 +775,50 @@
 
         </div>
 
+
+        <!-- MOOD RATINGS -->
+
+        <div class="summary-card">
+
+            <div class="summary-label">
+                Mood Ratings
+            </div>
+
+            <div
+                class="summary-number"
+                id="totalMoods"
+            >
+                —
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         MOOD RATINGS
+    ====================================================== -->
+
+    <div class="section">
+
+        <h2>
+            🌷 Rina's Mood Today
+        </h2>
+
+
+        <div
+            id="moodsLoading"
+            class="loading"
+        >
+            Loading mood ratings...
+        </div>
+
+
+        <div
+            id="moodsContainer"
+        ></div>
+
     </div>
 
 
@@ -628,6 +831,7 @@
         <h2>
             👀 Page Open History
         </h2>
+
 
         <div
             id="visitsLoading"
@@ -698,10 +902,12 @@
 
     </div>
 
+
 </div>
 
 
 <script>
+
 
     // ========================================================
     // FORMAT DATE
@@ -710,19 +916,26 @@
     function formatDate(dateString) {
 
         if (!dateString) {
+
             return "Unknown";
+
         }
+
 
         const date =
             new Date(dateString);
+
 
         if (
             Number.isNaN(
                 date.getTime()
             )
         ) {
+
             return dateString;
+
         }
+
 
         return date.toLocaleString(
             undefined,
@@ -735,15 +948,13 @@
                 second: "2-digit"
             }
         );
+
     }
 
 
     // ========================================================
     // ESCAPE HTML
     // ========================================================
-    //
-    // This prevents questionnaire text from becoming HTML.
-    //
 
     function escapeHTML(value) {
 
@@ -751,30 +962,85 @@
             value === null ||
             value === undefined
         ) {
+
             return "";
+
         }
 
+
         return String(value)
+
             .replaceAll(
                 "&",
                 "&amp;"
             )
+
             .replaceAll(
                 "<",
                 "&lt;"
             )
+
             .replaceAll(
                 ">",
                 "&gt;"
             )
+
             .replaceAll(
                 '"',
                 "&quot;"
             )
+
             .replaceAll(
                 "'",
                 "&#039;"
             );
+
+    }
+
+
+    // ========================================================
+    // GET MOOD INFORMATION
+    // ========================================================
+
+    function getMoodInfo(mood) {
+
+        const moods = {
+
+            angry: {
+                emoji: "😡",
+                name: "Angry"
+            },
+
+            sad: {
+                emoji: "😢",
+                name: "Sad"
+            },
+
+            okay: {
+                emoji: "😐",
+                name: "Okay"
+            },
+
+            happy: {
+                emoji: "😊",
+                name: "Happy"
+            },
+
+            very_happy: {
+                emoji: "🥰",
+                name: "Very Happy"
+            }
+
+        };
+
+
+        return (
+            moods[mood] || {
+                emoji: "🌷",
+                name: mood || "Unknown Mood"
+            }
+        );
+
     }
 
 
@@ -789,16 +1055,25 @@
                 "error"
             );
 
+
         error.style.display =
             "none";
+
 
         document.getElementById(
             "visitsLoading"
         ).style.display =
             "block";
 
+
         document.getElementById(
             "answersLoading"
+        ).style.display =
+            "block";
+
+
+        document.getElementById(
+            "moodsLoading"
         ).style.display =
             "block";
 
@@ -817,6 +1092,7 @@
                     "Server returned " +
                     response.status
                 );
+
             }
 
 
@@ -830,6 +1106,7 @@
                     data.message ||
                     "Failed to load dashboard"
                 );
+
             }
 
 
@@ -855,6 +1132,12 @@
                 data.summary.totalSubmissions;
 
 
+            document.getElementById(
+                "totalMoods"
+            ).textContent =
+                data.summary.totalMoods || 0;
+
+
             // =================================================
             // VISITS
             // =================================================
@@ -873,9 +1156,22 @@
             );
 
 
+            // =================================================
+            // MOODS
+            // =================================================
+
+            renderMoods(
+                data.moods
+            );
+
+
         } catch (error) {
 
-            console.error(error);
+            console.error(
+                "DASHBOARD ERROR:",
+                error
+            );
+
 
             document.getElementById(
                 "error"
@@ -883,10 +1179,29 @@
                 "Could not load dashboard: " +
                 error.message;
 
+
             document.getElementById(
                 "error"
             ).style.display =
                 "block";
+
+
+            document.getElementById(
+                "visitsLoading"
+            ).style.display =
+                "none";
+
+
+            document.getElementById(
+                "answersLoading"
+            ).style.display =
+                "none";
+
+
+            document.getElementById(
+                "moodsLoading"
+            ).style.display =
+                "none";
 
         }
 
@@ -904,15 +1219,19 @@
                 "visitsLoading"
             );
 
+
         const table =
             document.getElementById(
                 "visitsTable"
             );
 
+
         loading.style.display =
             "none";
 
-        table.innerHTML = "";
+
+        table.innerHTML =
+            "";
 
 
         if (
@@ -921,17 +1240,22 @@
         ) {
 
             table.innerHTML = `
+
                 <tr>
+
                     <td
                         colspan="3"
                         class="empty"
                     >
                         No page visits yet.
                     </td>
+
                 </tr>
+
             `;
 
             return;
+
         }
 
 
@@ -950,6 +1274,7 @@
                         ${index + 1}
                     </td>
 
+
                     <td>
                         ${escapeHTML(
                             formatDate(
@@ -957,6 +1282,7 @@
                             )
                         )}
                     </td>
+
 
                     <td class="visitor">
                         ${escapeHTML(
@@ -978,6 +1304,165 @@
 
 
     // ========================================================
+    // RENDER MOODS
+    // ========================================================
+
+    function renderMoods(moods) {
+
+        const loading =
+            document.getElementById(
+                "moodsLoading"
+            );
+
+
+        const container =
+            document.getElementById(
+                "moodsContainer"
+            );
+
+
+        loading.style.display =
+            "none";
+
+
+        container.innerHTML =
+            "";
+
+
+        if (
+            !moods ||
+            moods.length === 0
+        ) {
+
+            container.innerHTML = `
+
+                <div class="empty">
+                    No mood ratings yet. 🌷
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        moods.forEach(
+            (mood, index) => {
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                card.className =
+                    "mood-card";
+
+
+                const moodInfo =
+                    getMoodInfo(
+                        mood.mood
+                    );
+
+
+                const rating =
+                    Number(
+                        mood.rating
+                    );
+
+
+                const safeRating =
+                    Math.max(
+                        0,
+                        Math.min(
+                            5,
+                            rating
+                        )
+                    );
+
+
+                const stars =
+                    "★".repeat(
+                        safeRating
+                    ) +
+
+                    "☆".repeat(
+                        5 -
+                        safeRating
+                    );
+
+
+                card.innerHTML = `
+
+                    <div class="mood-header">
+
+                        <div class="mood-title">
+
+                            ${moodInfo.emoji}
+
+                            ${escapeHTML(
+                                moodInfo.name
+                            )}
+
+                        </div>
+
+
+                        <div class="mood-date">
+
+                            ${escapeHTML(
+                                formatDate(
+                                    mood.submitted_at
+                                )
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="mood-stars">
+
+                        ${stars}
+
+                    </div>
+
+
+                    <div class="mood-rating-text">
+
+                        Rating:
+
+                        <strong>
+                            ${rating}/5
+                        </strong>
+
+                    </div>
+
+
+                    <div class="mood-visitor">
+
+                        Visitor ID:
+
+                        ${escapeHTML(
+                            mood.visitor_id
+                        )}
+
+                    </div>
+
+                `;
+
+
+                container.appendChild(
+                    card
+                );
+
+            }
+        );
+
+    }
+
+
+    // ========================================================
     // RENDER ANSWERS
     // ========================================================
 
@@ -988,15 +1473,19 @@
                 "answersLoading"
             );
 
+
         const container =
             document.getElementById(
                 "answersContainer"
             );
 
+
         loading.style.display =
             "none";
 
-        container.innerHTML = "";
+
+        container.innerHTML =
+            "";
 
 
         if (
@@ -1005,12 +1494,15 @@
         ) {
 
             container.innerHTML = `
+
                 <div class="empty">
                     No questionnaire answers yet. 🌻
                 </div>
+
             `;
 
             return;
+
         }
 
 
@@ -1021,6 +1513,7 @@
                     document.createElement(
                         "div"
                     );
+
 
                 card.className =
                     "answer-card";
@@ -1037,7 +1530,8 @@
                     );
 
 
-                let answerHTML = "";
+                let answerHTML =
+                    "";
 
 
                 keys.forEach(
@@ -1052,7 +1546,9 @@
                             value === undefined ||
                             value === ""
                         ) {
+
                             return;
+
                         }
 
 
@@ -1065,17 +1561,22 @@
                                 <span
                                     class="answer-label"
                                 >
+
                                     ${escapeHTML(
                                         key
                                     )}
+
                                 </span>
+
 
                                 <span
                                     class="answer-value"
                                 >
+
                                     ${escapeHTML(
                                         value
                                     )}
+
                                 </span>
 
                             </div>
@@ -1095,19 +1596,24 @@
                         <div
                             class="answer-title"
                         >
+
                             💌 Submission #${
                                 index + 1
                             }
+
                         </div>
+
 
                         <div
                             class="answer-date"
                         >
+
                             ${escapeHTML(
                                 formatDate(
                                     submission.submitted_at
                                 )
                             )}
+
                         </div>
 
                     </div>
@@ -1116,24 +1622,32 @@
                     <div
                         class="visitor-id"
                     >
+
                         Visitor ID:
+
                         ${escapeHTML(
                             submission.visitor_id
                         )}
+
                     </div>
 
 
                     <div
                         class="answer-grid"
                     >
+
                         ${
                             answerHTML ||
+
                             `
+
                             <div class="empty">
                                 No answer data.
                             </div>
+
                             `
                         }
+
                     </div>
 
                 `;
@@ -1150,10 +1664,11 @@
 
 
     // ========================================================
-    // START
+    // START DASHBOARD
     // ========================================================
 
     loadDashboard();
+
 
 </script>
 

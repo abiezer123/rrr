@@ -270,6 +270,19 @@ app.get("/api/admin/dashboard", async (req, res) => {
             `
         );
 
+        const moods = await pool.query(
+    `
+    SELECT
+        id,
+        visitor_id,
+        mood,
+        rating,
+        submitted_at
+    FROM moods
+    ORDER BY submitted_at DESC
+    `
+);
+
         const totalVisits = visits.rows.length;
 
         const uniqueVisitors = new Set(
@@ -279,18 +292,21 @@ app.get("/api/admin/dashboard", async (req, res) => {
         const totalSubmissions = answers.rows.length;
 
         res.json({
-            success: true,
+    success: true,
 
-            summary: {
-                totalVisits,
-                uniqueVisitors,
-                totalSubmissions
-            },
+    summary: {
+        totalVisits,
+        uniqueVisitors,
+        totalSubmissions,
+        totalMoods: moods.rows.length
+    },
 
-            visits: visits.rows,
+    visits: visits.rows,
 
-            answers: answers.rows
-        });
+    answers: answers.rows,
+
+    moods: moods.rows
+});
 
     } catch (error) {
         console.error("DASHBOARD ERROR:", error);
@@ -300,6 +316,174 @@ app.get("/api/admin/dashboard", async (req, res) => {
             message: "Failed to get dashboard data"
         });
     }
+});
+
+// =========================
+// SAVE RINA'S MOOD
+// =========================
+
+app.post("/api/mood", async (req, res) => {
+
+    try {
+
+        const visitorId =
+            req.body?.visitor_id;
+
+        const mood =
+            req.body?.mood;
+
+        const rating =
+            Number(req.body?.rating);
+
+
+        console.log("MOOD REQUEST:");
+        console.log("Visitor ID:", visitorId);
+        console.log("Mood:", mood);
+        console.log("Rating:", rating);
+
+
+        // =========================
+        // VALIDATION
+        // =========================
+
+        if (!visitorId) {
+
+            return res.status(400).json({
+                success: false,
+                message:
+                    "visitor_id is required"
+            });
+
+        }
+
+
+        if (!mood) {
+
+            return res.status(400).json({
+                success: false,
+                message:
+                    "mood is required"
+            });
+
+        }
+
+
+        if (
+            !Number.isInteger(rating) ||
+            rating < 1 ||
+            rating > 5
+        ) {
+
+            return res.status(400).json({
+                success: false,
+                message:
+                    "rating must be between 1 and 5"
+            });
+
+        }
+
+
+        // =========================
+        // SAVE TO SUPABASE
+        // =========================
+
+        await pool.query(
+            `
+            INSERT INTO moods
+                (
+                    visitor_id,
+                    mood,
+                    rating
+                )
+            VALUES
+                ($1, $2, $3)
+            `,
+            [
+                visitorId,
+                mood,
+                rating
+            ]
+        );
+
+
+        console.log(
+            "MOOD SAVED"
+        );
+
+
+        res.json({
+            success: true,
+            message:
+                "Mood saved successfully"
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "MOOD ERROR:",
+            error
+        );
+
+
+        res.status(500).json({
+            success: false,
+            message:
+                "Failed to save mood",
+
+            error:
+                error.message
+        });
+
+    }
+
+});
+
+// =========================
+// ADMIN MOODS
+// =========================
+
+app.get("/api/admin/moods", async (req, res) => {
+
+    try {
+
+        const result =
+            await pool.query(
+                `
+                SELECT
+                    id,
+                    visitor_id,
+                    mood,
+                    rating,
+                    submitted_at
+                FROM moods
+                ORDER BY submitted_at DESC
+                `
+            );
+
+
+        res.json({
+            success: true,
+            moods: result.rows
+        });
+
+
+    } catch (error) {
+
+        console.error(
+            "MOODS ERROR:",
+            error
+        );
+
+
+        res.status(500).json({
+            success: false,
+            message:
+                "Failed to get moods"
+        });
+
+    }
+
 });
 
 // =========================
